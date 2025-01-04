@@ -1196,7 +1196,7 @@ use warnings;
 
 use strict;
 use warnings;
-use List::MoreUtils qw(any);
+use List::SomeUtils qw(any);
 
 our @ISA = qw(IO::Event);
 
