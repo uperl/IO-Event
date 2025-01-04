@@ -13,7 +13,7 @@ WriteMakefile(
 				AUTHOR		=> 'David Muir Sharnoff <cpan@dave.sharnoff.org>',
 				META_MERGE     => {
 					resources  => {
-						repository => 'http://github.com/muir/IO-Event',
+						repository => 'http://github.com/uperl/IO-Event',
 					},
 				},
 			) 
