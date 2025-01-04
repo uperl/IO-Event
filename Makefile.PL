@@ -23,7 +23,7 @@ WriteMakefile(
 	'PREREQ_PM'	=> {
 		'IO::Handle' => 0,
 		'Time::HiRes' => 0,
-		'List::MoreUtils' => 0,
+		'List::SomeUtils' => 0,
 	},
 	'BUILD_REQUIRES' => {
 		'Event' => 0,
