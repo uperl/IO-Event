@@ -1,5 +1,7 @@
 Revision history for Perl module IO::Event
 
+ - use List::SomeUtils instead of List::MoreUtils (works around a
+   broken dep in List::MoreUtils) (gh#10
  - fixed a pod formatting goof
  - fixed the repository line in the Makefile.PL
 
