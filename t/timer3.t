@@ -2,8 +2,8 @@
 
 eval { require AnyEvent::Impl::Perl; require AnyEvent; };
 if ($@) {
-	print "1..0 # Skip AnyEvent not installed\n";
-	exit 0;
+    print "1..0 # Skip AnyEvent not installed\n";
+    exit 0;
 }
 
 use FindBin;
