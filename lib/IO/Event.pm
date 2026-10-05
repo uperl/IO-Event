@@ -1356,7 +1356,7 @@ system that just does the right thing w/o the user needing
 to think about it much.
 
 All APIs are kept as simple as possible yet at the same time,
-all functionality is accesible if needed.  Simple things are
+all functionality is accessible if needed.  Simple things are
 easy.  Hard things are possible.
 
 Most of the time file handling syntax will work fine:
@@ -1463,7 +1463,7 @@ L<Event>.   If you need them, please send a patch.
 =item IO::Event->new($filehandle, [ $handler, [ $options ]])
 
 The basic C<new> constructor takes a filehandle and returns
-a psuedo-filehandle.  Treat the IO::Event object as
+a pseudo-filehandle.  Treat the IO::Event object as
 a filehandle.  Do not use the original filehandle without
 good reason (let us know if you find a good reason so we
 can fix the problem).
@@ -1488,7 +1488,7 @@ Set to true if this is a read-only filehandle.  Do not accept output.
 
 =item write_only
 
-Set to true if this is a write-only filehandle.  Do not attept to read.
+Set to true if this is a write-only filehandle.  Do not attempt to read.
 
 =item autoread
 
@@ -1505,7 +1505,7 @@ IO::Event object.
 The handler defaults as above or can be set with an
 additional pseudo-parameter for IO::Socket::UNIX->new(): 
 C<Handler>.  A description for the socket can be provided
-with an additional psuedo-parameter: C<Description>.
+with an additional pseudo-parameter: C<Description>.
 
 =item IO::Event::Socket::UNIX->new( [ARGS] )
 
@@ -1516,7 +1516,7 @@ IO::Event object.
 The handler defaults as above or can be set with an
 additional pseudo-parameter for IO::Socket::UNIX->new(): 
 C<Handler>.  A description for the socket can be provided
-with an additional psuedo-parameter: C<Description>.
+with an additional pseudo-parameter: C<Description>.
 
 =back
 
@@ -1565,7 +1565,7 @@ If autoreading is turned off then this will be invoked.
 
 =item ie_werror($handler, $ioe, $output_buffer_reference)
 
-A write error has occured when trying to drain the write
+A write error has occurred when trying to drain the write
 buffer.  Provide an empty subroutine if you don't care.
 
 =back
@@ -1599,7 +1599,7 @@ This is invoked when a C<connect()> completes.
 =item ie_connect_failed($handler, $ioe, $error_code)
 
 This is invoked when a C<connect()> fails.  For a timeout,
-the error code will be ETIMEOUT.
+the error code will be C<ETIMEDOUT>.
 
 =item ie_died($handler, $ioe, $method, $@)
 
@@ -1741,7 +1741,7 @@ This is mostly used internally in IO::Event.
 
 IO::Handle doesn't allow input_record_separator's on a per filehandle
 basis.  IO::Event does.  If you don't ever set a filehandle's input
-record separator, then it contineously defaults to the current value
+record separator, then it continuously defaults to the current value
 of C<$/>.  If you set it, then it will use your value and never
 look at C<$/> again.
 
@@ -1758,7 +1758,7 @@ Get/set the size of the output buffer.
 =item ->autoread($autoread)
 
 Get/set automatic reading if data when data can be read.
-Without autoread turned on, the input buffer ins't filled
+Without autoread turned on, the input buffer isn't filled
 and none of the read methods will work.  The point of this
 is for working with non-data filehandles.  This is an
 experts-only method that kinda defeats the purpose of
@@ -1863,7 +1863,7 @@ The following methods (from L<Event>) are supported on idle objects:
 start(), again(), now(), stop(), cancel(), is_cancelled(), is_running(),
 is_suspended(), pending.
 
-=head1 SUBSTITUED METHODS
+=head1 SUBSTITUTED METHODS
 
 Any method invocations that fail because the method isn't defined
 in IO::Event will by tried twice more: once using trying for a
