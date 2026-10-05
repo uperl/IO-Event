@@ -9,6 +9,9 @@ my $sdebug = 0;
 {
 package IO::Event::Emulate;
 
+# ABSTRACT: Pure-perl event handler for IO::Event that emulates Event
+# VERSION
+
 use strict;
 use warnings;
 

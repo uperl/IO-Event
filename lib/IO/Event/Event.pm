@@ -9,6 +9,9 @@ my $sdebug = $IO::Event::sdebug;
 
 package IO::Event::Event;
 
+# ABSTRACT: Use Event for the IO::Event event handler
+# VERSION
+
 require IO::Event;
 use strict;
 use warnings;

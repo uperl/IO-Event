@@ -10,6 +10,9 @@ my $lost_event_timer;
 {
 package IO::Event::AnyEvent;
 
+# ABSTRACT: Use AnyEvent for the IO::Event event handler
+# VERSION
+
 our $lost_event_hack = 2;
 
 require IO::Event;
