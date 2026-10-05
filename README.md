@@ -16,15 +16,15 @@ my $ioe = IO::Event::Socket::INET->new( [ARGS] )
 my $ioe = IO::Event::Socket::UNIX->new( [ARGS] )
 
 my $timer = IO::Event->timer(
-       [after => $seconds],
-       interval => $seconds,
-       cb => CODE);
+   [after => $seconds],
+   interval => $seconds,
+   cb => CODE);
 
 my $idler = IO::Event->idle(
-       [min => $seconds], 
-       [max => $seconds],
-       [reentrant => 0],
-       cb => CODE);
+   [min => $seconds], 
+   [max => $seconds],
+   [reentrant => 0],
+   cb => CODE);
 
 IO::Event::loop();
 
@@ -39,7 +39,7 @@ system that just does the right thing w/o the user needing
 to think about it much.
 
 All APIs are kept as simple as possible yet at the same time,
-all functionality is accesible if needed.  Simple things are
+all functionality is accessible if needed.  Simple things are
 easy.  Hard things are possible.
 
 Most of the time file handling syntax will work fine:
@@ -158,7 +158,7 @@ It does not provide any other methods or functions from
 - IO::Event->new($filehandle, \[ $handler, \[ $options \]\])
 
     The basic `new` constructor takes a filehandle and returns
-    a psuedo-filehandle.  Treat the IO::Event object as
+    a pseudo-filehandle.  Treat the IO::Event object as
     a filehandle.  Do not use the original filehandle without
     good reason (let us know if you find a good reason so we
     can fix the problem).
@@ -181,7 +181,7 @@ It does not provide any other methods or functions from
 
     - write\_only
 
-        Set to true if this is a write-only filehandle.  Do not attept to read.
+        Set to true if this is a write-only filehandle.  Do not attempt to read.
 
     - autoread
 
@@ -196,7 +196,7 @@ It does not provide any other methods or functions from
     The handler defaults as above or can be set with an
     additional pseudo-parameter for IO::Socket::UNIX->new(): 
     `Handler`.  A description for the socket can be provided
-    with an additional psuedo-parameter: `Description`.
+    with an additional pseudo-parameter: `Description`.
 
 - IO::Event::Socket::UNIX->new( \[ARGS\] )
 
@@ -207,7 +207,7 @@ It does not provide any other methods or functions from
     The handler defaults as above or can be set with an
     additional pseudo-parameter for IO::Socket::UNIX->new(): 
     `Handler`.  A description for the socket can be provided
-    with an additional psuedo-parameter: `Description`.
+    with an additional pseudo-parameter: `Description`.
 
 # MANDATORY HANDLERS
 
@@ -224,14 +224,14 @@ called arises.
     methods for getting data: 
 
     ```
-        <$ioe>                  like IO::Handle
-        $ioe->get()             like Data::LineBuffer
-        $ioe->read()            like IO::Handle
-        $ioe->sysread()         like IO::Handle
-        $ioe->getline()         like IO::Handle
-        $ioe->getlines()        like IO::Handle
-        $ioe->getsome()         see below
-        $ioe->ungets()          like FileHandle::Unget
+    <$ioe>          like IO::Handle
+    $ioe->get()     like Data::LineBuffer
+    $ioe->read()        like IO::Handle
+    $ioe->sysread()     like IO::Handle
+    $ioe->getline()     like IO::Handle
+    $ioe->getlines()    like IO::Handle
+    $ioe->getsome()     see below
+    $ioe->ungets()      like FileHandle::Unget
     ```
 
     At end-of-file, ie\_input will only be invoked once.  There
@@ -243,11 +243,11 @@ called arises.
     It should call accept:
 
     ```perl
-        sub ie_connection
-        {
-                my ($pkg, $ioe) = @_;
-                my $newfh = $ioe->accept()
-        }
+    sub ie_connection
+    {
+        my ($pkg, $ioe) = @_;
+        my $newfh = $ioe->accept()
+    }
     ```
 
 - ie\_read\_ready($handler, $ioe, $underlying\_file\_handle)
@@ -256,7 +256,7 @@ called arises.
 
 - ie\_werror($handler, $ioe, $output\_buffer\_reference)
 
-    A write error has occured when trying to drain the write
+    A write error has occurred when trying to drain the write
     buffer.  Provide an empty subroutine if you don't care.
 
 # OPTIONAL HANDLERS
@@ -286,7 +286,7 @@ but it is not required that they be defined.
 - ie\_connect\_failed($handler, $ioe, $error\_code)
 
     This is invoked when a `connect()` fails.  For a timeout,
-    the error code will be ETIMEOUT.
+    the error code will be `ETIMEDOUT`.
 
 - ie\_died($handler, $ioe, $method, $@)
 
@@ -320,37 +320,37 @@ methods behave like their `IO` (mostly `IO::Socket`) counterparts
 (except for being mostly non-blocking...):
 
 ```
-    connect
-    listen
-    open
-    read
-    sysread
-    syswrite
-    print
-    eof
-    shutdown
+connect
+listen
+open
+read
+sysread
+syswrite
+print
+eof
+shutdown
 ```
 
 Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods 
 are passed to underlying `Event` objects:
 
 ```
-    loop
-    unloop
-    and many more...
+loop
+unloop
+and many more...
 ```
 
 Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods 
 are passed to underlying `IO` objects:
 
 ```
-    fileno
-    stat
-    truncate
-    error
-    opened
-    untaint
-    and many more...
+fileno
+stat
+truncate
+error
+opened
+untaint
+and many more...
 ```
 
 IO::Event defines its own methods too:
@@ -426,7 +426,7 @@ IO::Event defines its own methods too:
 
     IO::Handle doesn't allow input\_record\_separator's on a per filehandle
     basis.  IO::Event does.  If you don't ever set a filehandle's input
-    record separator, then it contineously defaults to the current value
+    record separator, then it continuously defaults to the current value
     of `$/`.  If you set it, then it will use your value and never
     look at `$/` again.
 
@@ -443,7 +443,7 @@ IO::Event defines its own methods too:
 - ->autoread($autoread)
 
     Get/set automatic reading if data when data can be read.
-    Without autoread turned on, the input buffer ins't filled
+    Without autoread turned on, the input buffer isn't filled
     and none of the read methods will work.  The point of this
     is for working with non-data filehandles.  This is an
     experts-only method that kinda defeats the purpose of
@@ -542,7 +542,7 @@ The following methods (from [Event](https://metacpan.org/pod/Event)) are support
 start(), again(), now(), stop(), cancel(), is\_cancelled(), is\_running(),
 is\_suspended(), pending.
 
-# SUBSTITUED METHODS
+# SUBSTITUTED METHODS
 
 Any method invocations that fail because the method isn't defined
 in IO::Event will by tried twice more: once using trying for a
@@ -555,29 +555,29 @@ This dispatch is now deprecated with the choice of event handlers.
 # EXAMPLE SERVER
 
 ```perl
-    # This is a tcp line echo server
+# This is a tcp line echo server
 
-    my $listener = IO::Event::Socket::INET->new(
-            Listen => 10,
-            Proto => 'tcp',
-            LocalPort => 2821,
-    );
+my $listener = IO::Event::Socket::INET->new(
+    Listen => 10,
+    Proto => 'tcp',
+    LocalPort => 2821,
+);
 
-    Event::loop();
+Event::loop();
 
-    sub ie_connection
-    {
-            my ($pkg, $lstnr) = @_;
-            my $client = $lstnr->accept();
-            printf "accepted connection from %s:%s\n",
-                    $client->peerhost, $client->peerport;
-    }
+sub ie_connection
+{
+    my ($pkg, $lstnr) = @_;
+    my $client = $lstnr->accept();
+    printf "accepted connection from %s:%s\n",
+        $client->peerhost, $client->peerport;
+}
 
-    sub ie_input
-    {
-            my ($pkg, $client, $ibufref) = @_;
-            print $client <$client>;
-    }
+sub ie_input
+{
+    my ($pkg, $client, $ibufref) = @_;
+    print $client <$client>;
+}
 ```
 
 # SYSREAD and EOF
@@ -609,7 +609,7 @@ prefixes used by `IO::Event` and `IO::Socket`.
 The syntax is kinda funny:
 
 ```
-    ${*$filehandle}{'your_hash_key'}  
+${*$filehandle}{'your_hash_key'}  
 ```
 
 # SEE ALSO
