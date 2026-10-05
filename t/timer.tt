@@ -10,17 +10,17 @@ my $syncdebug = 0;
 my $inactivity = 5;
 my $heartbeat = 0.1;
 
-BEGIN	{
-	unless (eval { require Test::More; }) {
-		print "1..0 # Skipped: must have Test::More installed\n";
-		exit;
-	}
+BEGIN   {
+    unless (eval { require Test::More; }) {
+        print "1..0 # Skipped: must have Test::More installed\n";
+        exit;
+    }
 }
-BEGIN	{
-	unless (eval { require Time::HiRes; }) {
-		print "1..0 # Skipped: must have Time::HiRes installed\n";
-		exit;
-	}
+BEGIN   {
+    unless (eval { require Time::HiRes; }) {
+        print "1..0 # Skipped: must have Time::HiRes installed\n";
+        exit;
+    }
 }
 
 use Time::HiRes qw(time);
@@ -38,18 +38,18 @@ my $timer1count = 0;
 my $timer2count = 0;
 
 IO::Event->timer(
-	interval	=> 0.2,
-	cb		=> sub {
-		$timer1count++;
-	},
+    interval    => 0.2,
+    cb      => sub {
+        $timer1count++;
+    },
 );
 
 IO::Event->timer(
-	interval	=> 3,
-	cb		=> sub {
-		$timer2count++;
-		IO::Event::unloop_all();
-	},
+    interval    => 3,
+    cb      => sub {
+        $timer2count++;
+        IO::Event::unloop_all();
+    },
 );
 
 IO::Event::loop();
