@@ -1,6 +1,9 @@
 
 package IO::Event::Callback;
 
+# ABSTRACT: A closure based API for IO::Event
+# VERSION
+
 use strict;
 use warnings;
 
@@ -106,10 +109,6 @@ sub new
 
 __END__
 
-
-=head1 NAME
-
- IO::Event::Callback - A closure based API for IO::Event
 
 =head1 SYNOPSIS
 

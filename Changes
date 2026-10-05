@@ -1,9 +1,11 @@
-Revision history for Perl module IO::Event
+Revision history for {{$dist->name}}
 
- - use List::SomeUtils instead of List::MoreUtils (works around a
-   broken dep in List::MoreUtils) (gh#10
- - fixed a pod formatting goof
- - fixed the repository line in the Makefile.PL
+{{$NEXT}}
+  - use List::SomeUtils instead of List::MoreUtils (works around a
+    broken dep in List::MoreUtils) (gh#10)
+  - fixed a pod formatting goof
+  - fixed the repository line in the Makefile.PL
+  - migrated to Dist::Zilla
 
 0.813 2013/09/17
 
