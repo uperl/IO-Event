@@ -14,8 +14,6 @@ use Sys::Hostname;
 
 my $startingport = 1025;
 
-my $tnum;
-
 package T;
 
 use IO::Event;
@@ -425,10 +423,8 @@ my $fn = $fh->fileno;
 print STDERR "fh=$fh\n" if $debug;
 print STDERR "fn=$fn\n" if $debug;
 
-my $idle;
 my $time = time;
 my $waitingfor = $c;
-my $ptime;
 
 my $push_socket;
 my $pull_socket;
