@@ -15,7 +15,7 @@ package IO::Event::Emulate;
 use strict;
 use warnings;
 
-our @ISA = qw(IO::Event::Common);
+use parent -norequire, 'IO::Event::Common';
 
 my %want_read;
 my %want_write;
@@ -200,7 +200,7 @@ use Time::HiRes qw(time);
 use Carp qw(confess);
 use Scalar::Util qw(reftype);
 
-our @ISA = qw(IO::Event);
+use parent -norequire, 'IO::Event';
 our %timers = ();
 our %levels = ();
 our %next = ();
@@ -385,7 +385,7 @@ use Carp qw(confess);
 use Scalar::Util qw(reftype);
 use Time::HiRes qw(time);
 
-our @ISA = qw(IO::Event);
+use parent -norequire, 'IO::Event';
 our %timers = ();
 our %levels = ();
 our %next = ();

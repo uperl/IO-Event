@@ -15,7 +15,7 @@ use warnings;
 use Carp qw(confess);
 
 our $base;
-our @ISA;
+our @ISA;  ## no critic (ClassHierarchies::ProhibitExplicitISA)
 
 sub idle
 {
@@ -70,7 +70,7 @@ sub import
         } else {
             die "unknown import: $s";
         }
-        @ISA = $base;
+        @ISA = $base;  ## no critic (ClassHierarchies::ProhibitExplicitISA)
     }
     return 1;
 }
@@ -1199,7 +1199,7 @@ use strict;
 use warnings;
 use List::SomeUtils qw(any);
 
-our @ISA = qw(IO::Event);
+use parent -norequire, 'IO::Event';
 
 sub new
 {
@@ -1275,7 +1275,7 @@ package IO::Event::Socket::UNIX;
 use strict;
 use warnings;
 
-our @ISA = qw(IO::Event);
+use parent -norequire, 'IO::Event';
 
 sub new
 {
