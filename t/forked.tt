@@ -363,8 +363,6 @@ sub ie_input
         my $expect = $self->{results}[$self->{rqi}++];
         is_deeply($r, $expect);
     }
-    print "pipesend 'i'\n" if $syncdebug;
-    print $pipe "i";
 }
 
 sub ie_eof
@@ -372,9 +370,9 @@ sub ie_eof
     my ($self, $s) = @_;
     is($self->{rqi}, scalar(@{$self->{results}}));
     $s->close();
+    exit 0 unless @tests;
     print "pipesend 'e'\n" if $syncdebug;
     print $pipe "e";
-    exit 0 unless @tests;
 }
 
 package Timer;
