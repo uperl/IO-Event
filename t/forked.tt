@@ -205,7 +205,7 @@ $SIG{PIPE} = sub {
     print "# SIGPIPE recevied in $$\n";
 };
 
-my $pipe = new IO::Pipe;
+my $pipe = IO::Pipe->new;
 
 if ($child = fork()) {
     print "# PARENT $$ will listen at 127.0.0.1:$rp\n" if $debug;
@@ -214,7 +214,7 @@ if ($child = fork()) {
         Proto => 'tcp',
         LocalPort => $rp,
         LocalAddr => '127.0.0.1',
-        Handler => new Server,
+        Handler => Server->new,
         Description => 'Listener',
     );
 
@@ -276,7 +276,7 @@ exit 0;
 sub pickport
 {
     for (my $i = 0; $i < 1000; $i++) {
-        my $s = new IO::Socket::INET (
+        my $s = IO::Socket::INET->new(
             Listen => 1,
             LocalPort => $startingport,
         );
@@ -336,7 +336,7 @@ sub ie_connection
 {
     my ($self, $s) = @_;
     $timer->reset;
-    my $serverTest = new Server;
+    my $serverTest = Server->new;
     my $stream = $s->accept($serverTest);
     $serverTest->{stream} = $stream;
     $serverTest->{rqi} = 0;
