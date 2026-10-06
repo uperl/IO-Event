@@ -7,7 +7,7 @@ my $smallsleep = 0.;
 my $bigsleep = 0.5;
 my $debug = 0;
 my $syncdebug = 0;
-my $inactivity = 5;
+my $inactivity = 30;
 my $heartbeat = 0.1;
 
 BEGIN   {
@@ -361,6 +361,7 @@ sub ie_connection
 sub ie_input
 {
     my ($self, $s) = @_;
+    $timer->reset;
     my $rec = $self->{receive};
     die unless $rec;
     for (;;) {
