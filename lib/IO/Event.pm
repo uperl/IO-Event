@@ -79,8 +79,8 @@ sub AUTOLOAD
 {
     my $self = shift;
     our $AUTOLOAD;
-    my $a = $AUTOLOAD;
-    $a =~ s/.*:://;
+    my $method = $AUTOLOAD;
+    $method =~ s/.*:://;
 
     # for whatever reason, UNIVERSAL::can()
     # doesn't seem to work on some filehandles
@@ -90,34 +90,34 @@ sub AUTOLOAD
     my $fh = ${*$self}{ie_fh};
     if ($fh) {
         if (wantarray) {
-            eval { @r = $fh->$a(@_) };
+            eval { @r = $fh->$method(@_) };
         } else {
-            eval { $r = $fh->$a(@_) };
+            eval { $r = $fh->$method(@_) };
         }
         if ($@ && $@ =~ /Can't locate object method "(.*?)" via package/) {
             my $event = ${*$self}{ie_event};
-            if ($1 ne $a) {
+            if ($1 ne $method) {
                 # nothing to do
-            } elsif ($event && $event->can($a)) {
+            } elsif ($event && $event->can($method)) {
                 if (wantarray) {
-                    eval { @r = $event->$a(@_) };
+                    eval { @r = $event->$method(@_) };
                 } else {
-                    eval { $r = $event->$a(@_) };
+                    eval { $r = $event->$method(@_) };
                 }
             } else {
-                confess qq{Can't locate object method "$a" via "@{[ ref($self) ]}", "@{[ ref($fh)||'IO::Handle' ]}", or "@{[ ref($event) ]}"};
+                confess qq{Can't locate object method "$method" via "@{[ ref($self) ]}", "@{[ ref($fh)||'IO::Handle' ]}", or "@{[ ref($event) ]}"};
             }
         }
     } else {
         my $event = ${*$self}{ie_event};
-        if ($event && $event->can($a)) {
+        if ($event && $event->can($method)) {
             if (wantarray) {
-                eval { @r = $event->$a(@_) };
+                eval { @r = $event->$method(@_) };
             } else {
-                eval { $r = $event->$a(@_) };
+                eval { $r = $event->$method(@_) };
             }
         } else {
-            confess qq{Can't locate object method "$a" via "@{[ ref($self) ]}" or "@{[ ref($event) ]}"};
+            confess qq{Can't locate object method "$method" via "@{[ ref($self) ]}" or "@{[ ref($event) ]}"};
         }
     }
     confess $@ if $@;
@@ -1203,13 +1203,13 @@ our @ISA = qw(IO::Event);
 
 sub new
 {
-    my ($pkg, $a, $b, %sock) = @_;
+    my ($pkg, $first, $second, %sock) = @_;
 
     # emulate behavior in the IO::Socket::INET API
-    if (! %sock && ! $b) {
-        $sock{PeerAddr} = $a;
+    if (! %sock && ! $second) {
+        $sock{PeerAddr} = $first;
     } else {
-        $sock{$a} = $b;
+        $sock{$first} = $second;
     }
 
     my $handler = $sock{Handler} || (caller)[0];
