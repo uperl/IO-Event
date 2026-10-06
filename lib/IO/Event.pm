@@ -283,7 +283,7 @@ sub ie_do_invoke
         ${*$self}{ie_handler}->ie_died($self, $method, $@);
     } else {
         confess $@;
-        exit 1;
+        exit 1;  ## no critic (ControlStructures::ProhibitUnreachableCode)
     }
 
 }

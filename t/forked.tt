@@ -436,5 +436,4 @@ sub timeout
     print $pipe "t";
 }
 
-1;
 __END__

@@ -662,5 +662,3 @@ sub ie_eof
 {
     print "# eof\n";
 }
-
-1;

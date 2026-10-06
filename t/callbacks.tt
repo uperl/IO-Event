@@ -259,5 +259,3 @@ sub ie_input
         T::okay($l eq "$c\n", "input '$l' == '$c' on results socket");
     }
 }
-
-1;
