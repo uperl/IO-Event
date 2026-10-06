@@ -11,7 +11,7 @@ use IO::Event;
 
 our @handlers;
 BEGIN {
-    @handlers = qw(input connection read_ready werror eof output 
+    @handlers = qw(input connection read_ready werror eof output
         outputdone connected connect_failed died timer exception
         outputoverflow);
 }
@@ -51,8 +51,8 @@ sub handler
     my $self = bless {}, $pkg;
 
     for my $h (@handlers) {
-        my $key = 
-            exists($h{$h})      ? $h        : 
+        my $key =
+            exists($h{$h})      ? $h        :
             exists($h{"ie_$h"}) ? "ie_$h"   : undef;
         if ($key) {
             $self->{"ie_$h"} = $h{$key};
@@ -72,8 +72,8 @@ sub sock2handler
     my %h;
     for my $h (@handlers) {
         next unless exists $sref->{$h};
-        my $key = 
-            exists($sref->{$h})     ? $h        : 
+        my $key =
+            exists($sref->{$h})     ? $h        :
             exists($sref->{"ie_$h"})    ? "ie_$h"   : next;
         $h{$h} = $sref->{$key};
         delete $sref->{$key};
@@ -126,14 +126,14 @@ __END__
 
 =head1 DESCRIPTION
 
-IO::Event::Callback is a wrapper around L<IO::Event>.  It 
+IO::Event::Callback is a wrapper around L<IO::Event>.  It
 provides an alternative interface to using L<IO::Event>.
 
 Instead of defining a class with methods like "ie_input", you
 provide the callbacks as code references when you create
 the object.
 
-The keys for the callbacks are the same as the callbacks 
+The keys for the callbacks are the same as the callbacks
 for L<IO::Event> with the C<ie_> prefix removed.
 
 =head1 CONSTRUCTORS
@@ -155,7 +155,7 @@ C<write_only> options are passed through to L<IO::Event>.
  my $remote = IO::Event::Callback::INET->new(
     peeraddr    => '10.20.10.3',
     peerport    => '23',
-    input       => sub { 
+    input       => sub {
         # handle input
     },
     werror      => sub {
