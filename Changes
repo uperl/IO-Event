@@ -13,6 +13,8 @@ Revision history for {{$dist->name}}
     timers had one second granularity unless the caller did
     `use Event`
   - Made the forked test inactivity timer more robust (rt#125351)
+  - fixed race in t/forked2.t that caused failures under heavy load
+    (rt#92200, Debian #730908; patch by Niko Tyni)
 
 0.813 2013/09/17
 
