@@ -375,21 +375,21 @@ our (@tests) = (
         },
         acquire =>  sub {
             my $p = puller();
-            my $b;
+            my $run;
             my $c;
             my @l;
             while ($c = $p->getc()) {
-                if ($b && substr($b, 0, 1) eq $c) {
-                    $b .= $c;
-                } elsif (! $b) {
-                    $b = $c;
+                if ($run && substr($run, 0, 1) eq $c) {
+                    $run .= $c;
+                } elsif (! $run) {
+                    $run = $c;
                 } else {
                     $p->xungetc($c);
-                    push(@l, $b);
-                    undef $b;
+                    push(@l, $run);
+                    undef $run;
                 }
             }
-            push(@l, $b) if defined $b;
+            push(@l, $run) if defined $run;
             return @l;
         },
         compare => [ "aaa", "bbb", "ccc", "ddd", "e" ],
@@ -525,19 +525,19 @@ sub sender
     my $t = $tests[0];
     print "##############################################################################\n" if $debug;
     print "# starting $t->{desc}\n";
-    $a = $t->{send};
+    my $send = $t->{send};
     $last_send++;
     # okay(1, "keys = ".join(' ',keys %$t));
-    if (ref $a) {
-        eval { &$a() };
+    if (ref $send) {
+        eval { &$send() };
         if ($@) {
             T::okay(0, "send error $@");
             exit(0);
         }
     } else {
         pusher || confess "no pusher";
-        print "# printing '$a' for new test\n" if $debug;
-        pusher->print($a);
+        print "# printing '$send' for new test\n" if $debug;
+        pusher->print($send);
     }
     pusher->close();
     alarm($slowest);

@@ -206,10 +206,10 @@ our %levels = ();
 our %next = ();
 
 BEGIN {
-    for $a (qw(at after interval hard cb desc prio repeat timeout)) {
-        my $attrib = $a;
+    for my $name (qw(at after interval hard cb desc prio repeat timeout)) {
+        my $attrib = $name;
         no strict 'refs';
-        *{"IO::Event::Emulate::Timer::$a"} = sub {
+        *{"IO::Event::Emulate::Timer::$name"} = sub {
             my $self = shift;
             return $self->{$attrib} unless @_;
             my $val = shift;
