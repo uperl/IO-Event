@@ -329,7 +329,7 @@ use Test::More;
 sub new
 {
     my $pkg = shift;
-    return bless { @_ };
+    return bless { @_ }, $pkg;
 }
 
 sub ie_connection
