@@ -20,7 +20,7 @@ use strict;
 use warnings;
 use Scalar::Util qw(refaddr);
 
-our @ISA = qw(IO::Event::Common);
+use parent -norequire, 'IO::Event::Common';
 
 my %selves;
 my $condvar;

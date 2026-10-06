@@ -16,7 +16,7 @@ require IO::Event;
 use strict;
 use warnings;
 
-our @ISA = qw(IO::Event::Common);
+use parent -norequire, 'IO::Event::Common';
 
 sub import
 {
