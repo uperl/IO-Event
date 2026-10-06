@@ -136,6 +136,18 @@ the object.
 The keys for the callbacks are the same as the callbacks 
 for L<IO::Event> with the C<ie_> prefix removed.
 
+=head1 CONSTRUCTORS
+
+=head2 new
+
+ my $ioe = IO::Event::Callback->new($filehandle, %callbacks);
+
+Create an L<IO::Event> object for C<$filehandle> whose handler
+invokes the given callbacks.  The keys of C<%callbacks> are the
+L<IO::Event> handler names, with or without the C<ie_> prefix
+(for example C<input> or C<ie_input>).  The C<read_only> and
+C<write_only> options are passed through to L<IO::Event>.
+
 =head1 EXAMPLE
 
  use IO::Event::Callback;
