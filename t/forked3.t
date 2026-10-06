@@ -3,14 +3,13 @@
 use strict;
 use warnings;
 
-eval { require AnyEvent::Impl::Perl; require AnyEvent; };
+eval { require AnyEvent::Impl::Perl; require AnyEvent; };  ## no critic (Community::DiscouragedModules)
 if ($@) {
     print "1..0 # Skip AnyEvent not installed\n";
     exit 0;
 }
 
-use FindBin;
 use IO::Event;
 IO::Event->import('AnyEvent');
-require "$FindBin::Bin/forked.tt";
+require './t/forked.tt';
 

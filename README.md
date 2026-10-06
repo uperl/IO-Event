@@ -21,7 +21,7 @@ my $timer = IO::Event->timer(
    cb => CODE);
 
 my $idler = IO::Event->idle(
-   [min => $seconds], 
+   [min => $seconds],
    [max => $seconds],
    [reentrant => 0],
    cb => CODE);
@@ -45,13 +45,13 @@ easy.  Hard things are possible.
 Most of the time file handling syntax will work fine:
 `<$filehandle>` and `print $filehandle 'stuff'`.
 
-IO::Event provides automatic buffering of output (with a 
+IO::Event provides automatic buffering of output (with a
 callback to throttle).  It provides automatic line-at-a-time
 input.
 
-After initial setup, call `IO::Event::loop()`.  
+After initial setup, call `IO::Event::loop()`.
 
-IO::Event was originally written to use [Event](https://metacpan.org/pod/Event).  IO::Event still 
+IO::Event was originally written to use [Event](https://metacpan.org/pod/Event).  IO::Event still
 defaults to using [Event](https://metacpan.org/pod/Event) but it can now use [AnyEvent](https://metacpan.org/pod/AnyEvent) or its
 own event loop.
 
@@ -94,7 +94,7 @@ or just:
 use IO::Event
 ```
 
-IO::Event's definition for `loop()`, `timer()`, `idle()` and 
+IO::Event's definition for `loop()`, `timer()`, `idle()` and
 `unloop_all()` all default to the [Event](https://metacpan.org/pod/Event) version unless
 `emulate_Event` or `AnyEvent` have been imported.  This allows you to
 easily switch back and forth between [Event](https://metacpan.org/pod/Event)'s API and
@@ -108,15 +108,15 @@ To use [AnyEvent](https://metacpan.org/pod/AnyEvent)'s select loop, import `AnyE
 use IO::Event 'AnyEvent';
 ```
 
-You can use [AnyEvent](https://metacpan.org/pod/AnyEvent)'s API directly or you can use IO::Event's 
+You can use [AnyEvent](https://metacpan.org/pod/AnyEvent)'s API directly or you can use IO::Event's
 emulated APIs: `IO::Event::loop()`, `IO::Event::unloop()`, `IO::Event::timer()`,
 and `IO::Event::idle()`.  These behave like [Event](https://metacpan.org/pod/Event)'s routines of the
 same name but use [AnyEvent](https://metacpan.org/pod/AnyEvent) underneath.
 
 During testing, using the pure-perl event loop of [AnyEvent::Impl::Perl](https://metacpan.org/pod/AnyEvent::Impl::Perl) from
-[AnyEvent](https://metacpan.org/pod/AnyEvent) version 5.271, some read events were dropped.  To work around this, a synthetic 
+[AnyEvent](https://metacpan.org/pod/AnyEvent) version 5.271, some read events were dropped.  To work around this, a synthetic
 read-ready event is dispatched for all connected read filehandles every two
-seconds.  Turn this off or adjust its frequency by changing 
+seconds.  Turn this off or adjust its frequency by changing
 `$IO::Event::AnyEvent::lost_event_hack`.  A numeric value is the time (in seconds)
 between dispatching read events.  A false value turns off this performance-sapping hack.
 
@@ -132,7 +132,7 @@ use IO::Event 'emulate_Event';
 ```
 
 IO::Event does not provide a complete emulation of everything that
-[Event](https://metacpan.org/pod/Event) does.  It provides the full timer API: 
+[Event](https://metacpan.org/pod/Event) does.  It provides the full timer API:
 
 ```perl
 my $timer = IO::Event::timer( [ARGS] )
@@ -147,7 +147,7 @@ my $timer = Event::timer( [ARGS] )
 However it does not provide timer events on filehandles, nor does
 it provide events for signals, or variable accesses.
 
-Use `IO::Event::loop()` instead of `Event::loop()`.   Use 
+Use `IO::Event::loop()` instead of `Event::loop()`.   Use
 `IO::Event::unloop_all()` instead of `Event::unloop_all()`.
 Use `IO::Event::idle()` instead of `Event::idle()`.
 It does not provide any other methods or functions from
@@ -165,7 +165,7 @@ It does not provide any other methods or functions from
 
     The handler is the class or object where you provide callback
     functions to handle IO events.  It defaults to the package
-    of the calling context. 
+    of the calling context.
 
     If present, `$options` is a hash reference with the following
     possible keys:
@@ -189,23 +189,23 @@ It does not provide any other methods or functions from
 
 - IO::Event::Socket::INET->new( \[ARGS\] )
 
-    This constructor uses IO::Socket::INET->new() to create a 
-    socket using the ARGS provided.  It returns an 
+    This constructor uses IO::Socket::INET->new() to create a
+    socket using the ARGS provided.  It returns an
     IO::Event object.
 
     The handler defaults as above or can be set with an
-    additional pseudo-parameter for IO::Socket::UNIX->new(): 
+    additional pseudo-parameter for IO::Socket::UNIX->new():
     `Handler`.  A description for the socket can be provided
     with an additional pseudo-parameter: `Description`.
 
 - IO::Event::Socket::UNIX->new( \[ARGS\] )
 
-    This constructor uses IO::Socket::UNIX->new() to create a 
-    socket using the ARGS provided.  It returns an 
+    This constructor uses IO::Socket::UNIX->new() to create a
+    socket using the ARGS provided.  It returns an
     IO::Event object.
 
     The handler defaults as above or can be set with an
-    additional pseudo-parameter for IO::Socket::UNIX->new(): 
+    additional pseudo-parameter for IO::Socket::UNIX->new():
     `Handler`.  A description for the socket can be provided
     with an additional pseudo-parameter: `Description`.
 
@@ -217,11 +217,11 @@ called arises.
 
 - ie\_input($handler, $ioe, $input\_buffer\_reference)
 
-    Invoked when there is fresh data in the input buffer.  The 
+    Invoked when there is fresh data in the input buffer.  The
     input can be retrieved via directly reading it from
     `$$input_buffer_reference` or via `read()` from the
     $ioe filehandle, or by using a variety of standard
-    methods for getting data: 
+    methods for getting data:
 
     ```
     <$ioe>          like IO::Handle
@@ -235,7 +235,7 @@ called arises.
     ```
 
     At end-of-file, ie\_input will only be invoked once.  There
-    may or may not be data in the input buffer.  
+    may or may not be data in the input buffer.
 
 - ie\_connection($handler, $ioe)
 
@@ -267,11 +267,11 @@ but it is not required that they be defined.
 - ie\_eof($handler, $ioe, $input\_buffer\_reference)
 
     This is invoked when the read-side of the filehandle has
-    been closed by its source.  
+    been closed by its source.
 
 - ie\_output
 
-    This is invoked when data has just been written to the 
+    This is invoked when data has just been written to the
     underlying filehandle.
 
 - ie\_outputdone
@@ -297,18 +297,18 @@ but it is not required that they be defined.
 
 - ie\_timer
 
-    This is invoked for timer events.  
+    This is invoked for timer events.
 
 - ie\_exception
 
-    Invoked when an exceptional condition arises on the 
+    Invoked when an exceptional condition arises on the
     underlying filehandle
 
 - ie\_outputoverflow($handler, $ioe, $overflowing, $output\_buffer\_reference)
 
     Invoked when there is too much output data and the output buffers
     are overflowing.  You can take some action to generate less output.
-    This will be invoked exactly once (with $overflowing == 1) when 
+    This will be invoked exactly once (with $overflowing == 1) when
     there is too much data in the buffer and then exactly once again
     (with $overflowing == 0) when there is no longer too much data in the
     buffer.
@@ -331,7 +331,7 @@ eof
 shutdown
 ```
 
-Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods 
+Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods
 are passed to underlying `Event` objects:
 
 ```
@@ -340,7 +340,7 @@ unloop
 and many more...
 ```
 
-Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods 
+Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods
 are passed to underlying `IO` objects:
 
 ```
@@ -359,7 +359,7 @@ IO::Event defines its own methods too:
 
     accept() is nearly identical to the normal IO::Socket::accept()
     method except that instead of optionally passing a class
-    specifier for the new socket, you optionally pass a 
+    specifier for the new socket, you optionally pass a
     handler object or class.   The returned filehandle is an
     IO::Event object.
 
@@ -399,7 +399,7 @@ IO::Event defines its own methods too:
 
     This is what ungetc() should be: it pushes a string back into
     the input buffer.  This is unlike IO::Handle->ungetc which
-    takes an ordinal and pushes one character back into the 
+    takes an ordinal and pushes one character back into the
     the input buffer.  This is like [FileHandle::Unget](https://metacpan.org/pod/FileHandle::Unget).
 
 - ->handler($new\_handler)
@@ -434,7 +434,7 @@ IO::Event defines its own methods too:
 
     Get/set listening for read-ready events on the underlying
     filehandle.  This could be used by ie\_outputoverflow to
-    control input flows.  
+    control input flows.
 
 - ->output\_bufsize($output\_bufsize)
 
@@ -548,7 +548,7 @@ emulated event loop and IO::Event's API on top of [AnyEvent](https://metacpan.or
     A callback to invoke when the event loop is idle.  The callback can either be
     a CODE reference or an array reference.  If it's an array reference, the
     array should be a two element tuple: the first element is an object and the
-    second object is a method to invoke on the object.  
+    second object is a method to invoke on the object.
 
     ```perl
     my ($object, $method) = @{$timer->{cb}}
@@ -571,7 +571,7 @@ is\_suspended(), pending.
 
 Any method invocations that fail because the method isn't defined
 in IO::Event will by tried twice more: once using trying for a
-method on the inner (hidden) filehandle and once more trying 
+method on the inner (hidden) filehandle and once more trying
 for a method on the Event object that's used to create the select
 loop for this module.
 
@@ -627,20 +627,20 @@ on it.
 # DATA STRUCTURE
 
 The filehandle object itself is a funny kind of hash reference.
-If you want to use it to store your own data, you can.  Please 
+If you want to use it to store your own data, you can.  Please
 don't use hash keys that begin `ie_` or `io_` as those are the
-prefixes used by `IO::Event` and `IO::Socket`.  
+prefixes used by `IO::Event` and `IO::Socket`.
 
 The syntax is kinda funny:
 
 ```
-${*$filehandle}{'your_hash_key'}  
+${*$filehandle}{'your_hash_key'}
 ```
 
 # SEE ALSO
 
-For a different API on top of IO::Event, 
-see [IO::Event::Callback](https://metacpan.org/pod/IO::Event::Callback).  It uses IO::Event but provides 
+For a different API on top of IO::Event,
+see [IO::Event::Callback](https://metacpan.org/pod/IO::Event::Callback).  It uses IO::Event but provides
 a simpler and perhaps easier-to-use API.
 
 The following perl modules do something that is kinda similar

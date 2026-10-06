@@ -64,7 +64,7 @@ sub import
             require IO::Event::Event;
             $base = 'IO::Event::Event';
         } elsif ($s eq 'AnyEvent') {
-            require AnyEvent;
+            require AnyEvent;  ## no critic (Community::DiscouragedModules)
             require IO::Event::AnyEvent;
             $base = 'IO::Event::AnyEvent';
         } else {

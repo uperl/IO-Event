@@ -8,5 +8,4 @@ if ($@) {
     print "1..0 # Skip Event not installed\n";
     exit 0;
 }
-use FindBin;
-require "$FindBin::Bin/multifork.tt";
+require './t/multifork.tt';
