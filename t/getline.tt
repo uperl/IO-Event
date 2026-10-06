@@ -131,8 +131,8 @@ our (@tests) = (
         acquire =>  sub {
             my $p = puller();
             my @l;
-            while (<$p>) {
-                push(@l, $_);
+            while (my $line = <$p>) {
+                push(@l, $line);
             }
             return @l;
         },
@@ -169,8 +169,8 @@ our (@tests) = (
         acquire =>  sub {
             my $p = puller();
             my @l;
-            while (<$p>) {
-                push(@l, $_);
+            while (my $line = <$p>) {
+                push(@l, $line);
             }
             return @l;
         },
@@ -190,8 +190,8 @@ our (@tests) = (
         acquire =>  sub {
             my $p = puller();
             my @l;
-            while (<$p>) {
-                push(@l, $_);
+            while (my $line = <$p>) {
+                push(@l, $line);
             }
             return @l;
         },
@@ -261,8 +261,8 @@ our (@tests) = (
         acquire =>  sub {
             my $p = puller();
             my @l;
-            while (<$p>) {
-                push(@l, $_);
+            while (my $line = <$p>) {
+                push(@l, $line);
             }
             return @l;
         },

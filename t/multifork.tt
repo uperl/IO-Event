@@ -107,9 +107,9 @@ sub new
 sub ie_input
 {
     my ($self, $ie) = @_;
-    while (<$ie>) {
-        chomp;
-        if (/^(?:(not)\s+)?ok\S*(?:\s+(\d+))?([^#]*)(?:#(.*))?$/) {
+    while (my $line = <$ie>) {
+        chomp $line;
+        if ($line =~ /^(?:(not)\s+)?ok\S*(?:\s+(\d+))?([^#]*)(?:#(.*))?$/) {
             my ($not, $seq, $name, $comment) = ($1, $2, $3, $4);
             $name = '' unless defined $name;
             $comment = '' unless defined $name;
@@ -127,13 +127,13 @@ sub ie_input
             Test::XMultiFork::notokay($not, $name, $comment);
             next;
         }
-        if (/^1\.\.(\d+)/) {
+        if ($line =~ /^1\.\.(\d+)/) {
             Test::XMultiFork::notokay(1, "multiple plans", $self->{code})
                 if defined $self->{plan};
             $self->{plan} = $1;
             next;
         }
-        print "$_ [$self->{code}]\n";
+        print "$line [$self->{code}]\n";
     }
 }
 
