@@ -16,7 +16,6 @@ $modules{$_} = $_ for qw(
   EV
   Event
   ExtUtils::MakeMaker
-  FindBin
   IO::Handle
   IO::Pipe
   IO::Socket::INET
