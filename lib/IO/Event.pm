@@ -81,8 +81,8 @@ sub AUTOLOAD
     our $AUTOLOAD;
     my $a = $AUTOLOAD;
     $a =~ s/.*:://;
-    
-    # for whatever reason, UNIVERSAL::can() 
+
+    # for whatever reason, UNIVERSAL::can()
     # doesn't seem to work on some filehandles
 
     my $r;
@@ -149,8 +149,8 @@ sub display_bits
     print STDERR unpack("b*", $_[0]);
 }
 
-sub count_bits 
-{ 
+sub count_bits
+{
     scalar(grep { $_ } split(//, unpack("b*", $_[0])));
 }
 
@@ -208,7 +208,7 @@ sub new
     $self->ie_register();
     $fh->blocking(0);
     print "New IO::Event: ${*$self}{ie_desc} - now nonblocking\n" if $debug;
-    
+
     # stolen from IO::Multiplex
     tie(*$self, $pkg, $self);
     return $self;
@@ -253,7 +253,7 @@ sub ie_invoke
 
     while (@pending_callbacks) {
         my ($ie, $req, $meth, @a) = @{shift @pending_callbacks};
-        delete ${*$ie}{ie_pending}{$meth}; 
+        delete ${*$ie}{ie_pending}{$meth};
         print STDERR "Processing delayed invocation of $meth on ${*$ie}{ie_desc}\n" if $debug;
         $ie->ie_do_invoke($req, $meth, @a);
     }
@@ -371,11 +371,11 @@ sub ie_dispatch_write
             }
         } else {
             $self->ie_invoke(0, 'ie_output', $obuf, $rv);
-            return 1 if ${*$self}{ie_writeclosed} 
+            return 1 if ${*$self}{ie_writeclosed}
                 && ${*$self}{ie_readclosed};
             if (! length($$obuf)) {
                 $self->ie_invoke(0, 'ie_outputdone', $obuf, 1);
-                return 1 if ${*$self}{ie_writeclosed} 
+                return 1 if ${*$self}{ie_writeclosed}
                     && ${*$self}{ie_readclosed};
                 if (! length($$obuf)) {
                     $self->writeevents(0);
@@ -405,7 +405,7 @@ sub ie_dispatch_exception
     } elsif ($fh->eof) {
         if (length(${*$self}{ie_ibuf})) {
             $self->ie_invoke(0, 'ie_input', \${*$self}{ie_ibuf});
-        } 
+        }
         if (${*$self}{ie_eofinvoked}++) {
             warn "EOF repeat";
         } else {
@@ -426,7 +426,7 @@ sub ie_dispatch_timer
 {
     my ($self) = @_;
     printf STDERR "T%d", fileno(${*$self}{ie_fh}) if $sdebug;
-    if (${*$self}{ie_connecting} 
+    if (${*$self}{ie_connecting}
         && ${*$self}{ie_connect_timeout}
         && time >= ${*$self}{ie_connect_timeout})
     {
@@ -446,9 +446,9 @@ sub ie_input
     my $self = shift;
     my $ibuf = \${*$self}{ie_ibuf};
 
-    # 
+    #
     # We'll loop just to make sure we don't miss an event
-    # 
+    #
     for (;;) {
         my $ol = length($$ibuf);
         my $rv = ${*$self}{ie_fh}->sysread($$ibuf, BUFSIZ, $ol);
@@ -501,7 +501,7 @@ sub reentrant
     }
     return $old;
 }
-    
+
 sub output_bufsize
 {
     my $self = shift;
@@ -633,7 +633,7 @@ sub can_read
     return 0;
 }
 
-# reads N characters or returns undef if it can't 
+# reads N characters or returns undef if it can't
 sub getsome
 {
     my ($self, $length) = @_;
@@ -659,7 +659,7 @@ sub connect
     unless($fh->connected()) {
         ${*$self}{ie_connecting} = 1;
         $self->writeevents(1);
-        ${*$self}{ie_connect_timeout} = time 
+        ${*$self}{ie_connect_timeout} = time
             + ${*$self}{ie_socket_timeout}
             if ${*$self}{ie_socket_timeout};
     }
@@ -705,7 +705,7 @@ sub accept
     } else {
         $desc = "Accept for ${*$self}{ie_desc}";
     }
-    $handler = ${*$self}{ie_handler} 
+    $handler = ${*$self}{ie_handler}
         unless defined $handler;
     my $new = IO::Event->new($newfh, $handler, $desc);
     ${*$new}{ie_obufsize} = ${*$self}{ie_obufsize};
@@ -740,7 +740,7 @@ sub shutdown
         if (length(${*$self}{ie_obuf})) {
             ${*$self}{ie_shutdownrequested} = $what;
             if ($what == 2) {
-                $r = shutdown(${*$self}{ie_fh}, 0) 
+                $r = shutdown(${*$self}{ie_fh}, 0)
             }
         } else {
             $r = shutdown(${*$self}{ie_fh}, $what);
@@ -786,8 +786,8 @@ sub forceclose
 }
 
 # from IO::Handle
-sub open 
-{ 
+sub open
+{
     my $self = shift;
     my $fh = ${*$self}{ie_fh};
     $self->ie_deregister();
@@ -817,7 +817,7 @@ sub open
 # this returns nothing unless there is enough to fill
 # the request or it's at eof
 #
-sub sysread 
+sub sysread
 {
     my $self = shift;
 
@@ -845,9 +845,9 @@ sub sysread
 
     return undef unless $length >= $_[1] || $self->eof2;
 
-    (defined $_[2] ? 
+    (defined $_[2] ?
         substr ($_[0], $_[2], length($_[0]))
-        : $_[0]) 
+        : $_[0])
             = substr($$ibuf, 0, $_[1]);
 
     substr($$ibuf, 0, $_[1]) = '';
@@ -892,13 +892,13 @@ sub unget
     my $self = shift;
     my $irs = "\n";
     no warnings;
-    substr(${*$self}{ie_ibuf}, 0, 0) 
+    substr(${*$self}{ie_ibuf}, 0, 0)
         = join($irs, @_, undef);
 }
 
 # from IO::Handle
-sub getline 
-{ 
+sub getline
+{
     my $self = shift;
     return undef unless ${*$self}{ie_autoread};
     my $ibuf = \${*$self}{ie_ibuf};
@@ -907,8 +907,8 @@ sub getline
     my $line;
 
 
-    # perl's handling if input record separators is 
-    # not completely simple.  
+    # perl's handling if input record separators is
+    # not completely simple.
     $irs = $$irs if ref $irs;
     my $index;
     if ($irs =~ /^\d/ && int($irs)) {
@@ -916,11 +916,11 @@ sub getline
             $line = substr($$ibuf, 0, $irs);
         } elsif ($self->eof2) {
             $line = $$ibuf;
-        } 
+        }
     } elsif (! defined $irs) {
         if ($self->eof2) {
             $line = $$ibuf;
-        } 
+        }
     } elsif ($irs eq '') {
         # paragraph mode
         $$ibuf =~ s/^\n+//;
@@ -1030,7 +1030,7 @@ sub ungetc
 sub ungets
 {
     my $self = shift;
-    substr(${*$self}{ie_ibuf}, 0, 0) 
+    substr(${*$self}{ie_ibuf}, 0, 0)
         = join('', @_);
 }
 
@@ -1148,7 +1148,7 @@ sub PRINTF
     $self->print(sprintf(shift, @_));
 }
 
-sub READLINE 
+sub READLINE
 {
     my $self = shift;
     wantarray ? $self->getlines : $self->getline;
@@ -1239,11 +1239,11 @@ sub new
             unless defined $ds{LocalHost};
     }
 
-    my $desc = $ds{Description} 
-        || join(" ", 
-            map { 
-                defined $ds{$_} 
-                    ? "$_=$ds{$_}" 
+    my $desc = $ds{Description}
+        || join(" ",
+            map {
+                defined $ds{$_}
+                    ? "$_=$ds{$_}"
                     : $_
             } sort keys %ds);
 
@@ -1291,7 +1291,7 @@ sub new
     my $handler = $sock{Handler} || (caller)[0];
     delete $sock{Handler};
 
-    my $desc = $sock{Description} 
+    my $desc = $sock{Description}
         || join(" ", map { "$_=$sock{$_}" } sort keys %sock);
     delete $sock{Description};
 
@@ -1303,7 +1303,7 @@ sub new
     bless $self, $pkg;
     $self->listener(1)
         if $sock{Listen};
-    $fh->blocking(0); 
+    $fh->blocking(0);
     if ($sock{Peer}) {
         if ($fh->connected()) {
             $self->ie_invoke(0, 'ie_connected');
@@ -1339,7 +1339,7 @@ __END__
     cb => CODE);
 
  my $idler = IO::Event->idle(
-    [min => $seconds], 
+    [min => $seconds],
     [max => $seconds],
     [reentrant => 0],
     cb => CODE);
@@ -1362,13 +1362,13 @@ easy.  Hard things are possible.
 Most of the time file handling syntax will work fine:
 C<< <$filehandle> >> and C<print $filehandle 'stuff'>.
 
-IO::Event provides automatic buffering of output (with a 
+IO::Event provides automatic buffering of output (with a
 callback to throttle).  It provides automatic line-at-a-time
 input.
 
-After initial setup, call C<IO::Event::loop()>.  
+After initial setup, call C<IO::Event::loop()>.
 
-IO::Event was originally written to use L<Event>.  IO::Event still 
+IO::Event was originally written to use L<Event>.  IO::Event still
 defaults to using L<Event> but it can now use L<AnyEvent> or its
 own event loop.
 
@@ -1405,7 +1405,7 @@ or just:
 
  use IO::Event
 
-IO::Event's definition for C<loop()>, C<timer()>, C<idle()> and 
+IO::Event's definition for C<loop()>, C<timer()>, C<idle()> and
 C<unloop_all()> all default to the L<Event> version unless
 C<emulate_Event> or C<AnyEvent> have been imported.  This allows you to
 easily switch back and forth between L<Event>'s API and
@@ -1417,15 +1417,15 @@ To use L<AnyEvent>'s select loop, import C<AnyEvent>.
 
  use IO::Event 'AnyEvent';
 
-You can use L<AnyEvent>'s API directly or you can use IO::Event's 
+You can use L<AnyEvent>'s API directly or you can use IO::Event's
 emulated APIs: C<IO::Event::loop()>, C<IO::Event::unloop()>, C<IO::Event::timer()>,
 and C<IO::Event::idle()>.  These behave like L<Event>'s routines of the
 same name but use L<AnyEvent> underneath.
 
 During testing, using the pure-perl event loop of L<AnyEvent::Impl::Perl> from
-L<AnyEvent> version 5.271, some read events were dropped.  To work around this, a synthetic 
+L<AnyEvent> version 5.271, some read events were dropped.  To work around this, a synthetic
 read-ready event is dispatched for all connected read filehandles every two
-seconds.  Turn this off or adjust its frequency by changing 
+seconds.  Turn this off or adjust its frequency by changing
 C<$IO::Event::AnyEvent::lost_event_hack>.  A numeric value is the time (in seconds)
 between dispatching read events.  A false value turns off this performance-sapping hack.
 
@@ -1439,7 +1439,7 @@ To use IO::Event's own select loop, import C<emulate_Event>.
  use IO::Event 'emulate_Event';
 
 IO::Event does not provide a complete emulation of everything that
-L<Event> does.  It provides the full timer API: 
+L<Event> does.  It provides the full timer API:
 
  my $timer = IO::Event::timer( [ARGS] )
 
@@ -1450,7 +1450,7 @@ instead of
 However it does not provide timer events on filehandles, nor does
 it provide events for signals, or variable accesses.
 
-Use C<IO::Event::loop()> instead of C<Event::loop()>.   Use 
+Use C<IO::Event::loop()> instead of C<Event::loop()>.   Use
 C<IO::Event::unloop_all()> instead of C<Event::unloop_all()>.
 Use C<IO::Event::idle()> instead of C<Event::idle()>.
 It does not provide any other methods or functions from
@@ -1470,7 +1470,7 @@ can fix the problem).
 
 The handler is the class or object where you provide callback
 functions to handle IO events.  It defaults to the package
-of the calling context. 
+of the calling context.
 
 If present, C<$options> is a hash reference with the following
 possible keys:
@@ -1498,23 +1498,23 @@ Set to 0 if this should not be an auto-read filehandle.
 
 =item IO::Event::Socket::INET->new( [ARGS] )
 
-This constructor uses IO::Socket::INET->new() to create a 
-socket using the ARGS provided.  It returns an 
+This constructor uses IO::Socket::INET->new() to create a
+socket using the ARGS provided.  It returns an
 IO::Event object.
 
 The handler defaults as above or can be set with an
-additional pseudo-parameter for IO::Socket::UNIX->new(): 
+additional pseudo-parameter for IO::Socket::UNIX->new():
 C<Handler>.  A description for the socket can be provided
 with an additional pseudo-parameter: C<Description>.
 
 =item IO::Event::Socket::UNIX->new( [ARGS] )
 
-This constructor uses IO::Socket::UNIX->new() to create a 
-socket using the ARGS provided.  It returns an 
+This constructor uses IO::Socket::UNIX->new() to create a
+socket using the ARGS provided.  It returns an
 IO::Event object.
 
 The handler defaults as above or can be set with an
-additional pseudo-parameter for IO::Socket::UNIX->new(): 
+additional pseudo-parameter for IO::Socket::UNIX->new():
 C<Handler>.  A description for the socket can be provided
 with an additional pseudo-parameter: C<Description>.
 
@@ -1530,12 +1530,12 @@ called arises.
 
 =item ie_input($handler, $ioe, $input_buffer_reference)
 
-Invoked when there is fresh data in the input buffer.  The 
+Invoked when there is fresh data in the input buffer.  The
 input can be retrieved via directly reading it from
 C<$$input_buffer_reference> or via C<read()> from the
 $ioe filehandle, or by using a variety of standard
-methods for getting data: 
-    
+methods for getting data:
+
     <$ioe>          like IO::Handle
     $ioe->get()     like Data::LineBuffer
     $ioe->read()        like IO::Handle
@@ -1546,7 +1546,7 @@ methods for getting data:
     $ioe->ungets()      like FileHandle::Unget
 
 At end-of-file, ie_input will only be invoked once.  There
-may or may not be data in the input buffer.  
+may or may not be data in the input buffer.
 
 =item ie_connection($handler, $ioe)
 
@@ -1580,11 +1580,11 @@ but it is not required that they be defined.
 =item ie_eof($handler, $ioe, $input_buffer_reference)
 
 This is invoked when the read-side of the filehandle has
-been closed by its source.  
+been closed by its source.
 
 =item ie_output
 
-This is invoked when data has just been written to the 
+This is invoked when data has just been written to the
 underlying filehandle.
 
 =item ie_outputdone
@@ -1610,18 +1610,18 @@ then execution will terminate.
 
 =item ie_timer
 
-This is invoked for timer events.  
+This is invoked for timer events.
 
 =item ie_exception
 
-Invoked when an exceptional condition arises on the 
+Invoked when an exceptional condition arises on the
 underlying filehandle
 
 =item ie_outputoverflow($handler, $ioe, $overflowing, $output_buffer_reference)
 
 Invoked when there is too much output data and the output buffers
 are overflowing.  You can take some action to generate less output.
-This will be invoked exactly once (with $overflowing == 1) when 
+This will be invoked exactly once (with $overflowing == 1) when
 there is too much data in the buffer and then exactly once again
 (with $overflowing == 0) when there is no longer too much data in the
 buffer.
@@ -1644,14 +1644,14 @@ methods behave like their C<IO> (mostly C<IO::Socket>) counterparts
     eof
     shutdown
 
-Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods 
+Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods
 are passed to underlying C<Event> objects:
 
     loop
     unloop
     and many more...
 
-Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods 
+Through AUTOLOAD (see the SUBSTITUTED METHODS section) methods
 are passed to underlying C<IO> objects:
 
     fileno
@@ -1670,7 +1670,7 @@ IO::Event defines its own methods too:
 
 accept() is nearly identical to the normal IO::Socket::accept()
 method except that instead of optionally passing a class
-specifier for the new socket, you optionally pass a 
+specifier for the new socket, you optionally pass a
 handler object or class.   The returned filehandle is an
 IO::Event object.
 
@@ -1714,7 +1714,7 @@ This is like unget() from L<Data::LineBuffer>.
 
 This is what ungetc() should be: it pushes a string back into
 the input buffer.  This is unlike IO::Handle->ungetc which
-takes an ordinal and pushes one character back into the 
+takes an ordinal and pushes one character back into the
 the input buffer.  This is like L<FileHandle::Unget>.
 
 =item ->handler($new_handler)
@@ -1749,7 +1749,7 @@ look at C<$/> again.
 
 Get/set listening for read-ready events on the underlying
 filehandle.  This could be used by ie_outputoverflow to
-control input flows.  
+control input flows.
 
 =item ->output_bufsize($output_bufsize)
 
@@ -1873,7 +1873,7 @@ emulated event loop and IO::Event's API on top of L<AnyEvent>:
 A callback to invoke when the event loop is idle.  The callback can either be
 a CODE reference or an array reference.  If it's an array reference, the
 array should be a two element tuple: the first element is an object and the
-second object is a method to invoke on the object.  
+second object is a method to invoke on the object.
 
  my ($object, $method) = @{$timer->{cb}}
  $object->$method();
@@ -1896,7 +1896,7 @@ is_suspended(), pending.
 
 Any method invocations that fail because the method isn't defined
 in IO::Event will by tried twice more: once using trying for a
-method on the inner (hidden) filehandle and once more trying 
+method on the inner (hidden) filehandle and once more trying
 for a method on the Event object that's used to create the select
 loop for this module.
 
@@ -1950,18 +1950,18 @@ on it.
 =head1 DATA STRUCTURE
 
 The filehandle object itself is a funny kind of hash reference.
-If you want to use it to store your own data, you can.  Please 
+If you want to use it to store your own data, you can.  Please
 don't use hash keys that begin C<ie_> or C<io_> as those are the
-prefixes used by C<IO::Event> and C<IO::Socket>.  
+prefixes used by C<IO::Event> and C<IO::Socket>.
 
 The syntax is kinda funny:
 
-    ${*$filehandle}{'your_hash_key'}  
+    ${*$filehandle}{'your_hash_key'}
 
 =head1 SEE ALSO
 
-For a different API on top of IO::Event, 
-see L<IO::Event::Callback>.  It uses IO::Event but provides 
+For a different API on top of IO::Event,
+see L<IO::Event::Callback>.  It uses IO::Event but provides
 a simpler and perhaps easier-to-use API.
 
 The following perl modules do something that is kinda similar

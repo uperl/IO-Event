@@ -121,7 +121,7 @@ BEGIN {
                 "\n",
                 "a\nb\n\nc\n\n\nd\n\n\n\ne\n",
             ],
-        }, 
+        },
         { #3
             repeat  => 5,
             desc    => "paragraph mode, getline, \$/ set funny",
@@ -138,10 +138,10 @@ BEGIN {
             },
             results => [
                 "this is a test\n\n",
-                "a\nb\n\n", 
-                "c\n\n", 
-                "d\n\n", 
-                "e\n", 
+                "a\nb\n\n",
+                "c\n\n",
+                "d\n\n",
+                "e\n",
             ],
             sendqueue => [
                 "this is ",
@@ -149,7 +149,7 @@ BEGIN {
                 "\n",
                 "a\nb\n\nc\n\n\nd\n\n\n\ne\n",
             ],
-        }, 
+        },
         { #4
             repeat  => 5,
             desc    => "paragraph mode, getlines, \$/ set funny",
@@ -177,7 +177,7 @@ BEGIN {
                 "\n",
                 "a\nb\n\nc\n\n\nd\n\n\n\ne\n",
             ],
-        }, 
+        },
     );
 
     # @tests = ($tests[3]);
@@ -201,7 +201,7 @@ my $child;
 my $timer;
 my $hbtimer;
 
-$SIG{PIPE} = sub { 
+$SIG{PIPE} = sub {
     print "# SIGPIPE recevied in $$\n";
 };
 
@@ -239,7 +239,7 @@ if ($child = fork()) {
     syncto("l");
     while (@tests) {
         my $test = $tests[0] || last;
-        shift @tests 
+        shift @tests
             if --$test->{repeat} < 1;
         print "# test $test->{desc}\n";
         my $s = IO::Socket::INET->new(
@@ -341,7 +341,7 @@ sub ie_connection
     $serverTest->{stream} = $stream;
     $serverTest->{rqi} = 0;
     my $test = $tests[0];
-    shift @tests 
+    shift @tests
         if --$test->{repeat} < 1;
     @$serverTest{keys %$test} = values %$test;
     my $setup = $serverTest->{setup};

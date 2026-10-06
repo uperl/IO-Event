@@ -116,8 +116,8 @@ sub ie_input
             $comment = '' unless defined $name;
             if (defined($seq)) {
                 if ($seq != $self->{seq}) {
-                    Test::XMultiFork::notokay(1, 
-                        "result ordering in $self->{code}", 
+                    Test::XMultiFork::notokay(1,
+                        "result ordering in $self->{code}",
                         "expected '$self->{seq}' but got '$seq'");
                 }
                 $self->{seq} = $seq+1;
@@ -146,11 +146,11 @@ sub ie_eof
         if ($self->{plan} == $self->{seq}) {
             Test::XMultiFork::notokay(0, "plan followed", $self->{code});
         } else {
-            Test::XMultiFork::notokay(1, 
+            Test::XMultiFork::notokay(1,
                 "plan followed $self->{code}",
                 "plan: $self->{plan} actual: $self->{seq}");
         }
-    } 
+    }
     $ie->close();
     delete $capture{$self->{code}};
     IO::Event::unloop_all(7.3) unless %capture;

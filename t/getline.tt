@@ -588,7 +588,7 @@ sub ie_input
     my ($r, @r);
     if ($t->{array}) {
         @r = eval { &$acquire($iput, $ibuf, $t) };
-    } else { 
+    } else {
         $r = eval { &$acquire($iput, $ibuf, $t) };
     }
     if ($@) {
@@ -621,13 +621,13 @@ sub ie_input
     } elsif ($t->{array}) {
         $r = join('><', @r);
         $compare = join('><', @$compare);
-        $cr = length($r) < length($compare) 
+        $cr = length($r) < length($compare)
             ? -1
             : ($r eq $compare
                 ? 0
                 : 1);
     } else {
-        $cr = length($r) < length($compare) 
+        $cr = length($r) < length($compare)
             ? -1
             : ($r eq $compare
                 ? 0

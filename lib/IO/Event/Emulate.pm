@@ -1,6 +1,6 @@
 
 #
-# Use a pure-perl event handler that kinda emulates's Event 
+# Use a pure-perl event handler that kinda emulates's Event
 # for IO::Event's event handler.
 #
 
@@ -181,7 +181,7 @@ sub ie_register
     my ($self) = @_;
     my ($fh, $fileno) = $self->SUPER::ie_register();
     $active{$fileno} = $self;
-    $self->readevents(! ${*$self}{ie_readclosed}); 
+    $self->readevents(! ${*$self}{ie_readclosed});
     $self->writeevents(0);
 }
 

@@ -159,7 +159,7 @@ sub new
     my ($pkg, $type, $req_pkg, %param) = @_;
     my ($cpkg, $file, $line, $sub) = caller;
     my $desc;
-    { 
+    {
         no warnings;
         $desc = $param{desc} || "\u$type\E event  defined in ${cpkg}::${sub} at $file:$line";
     }
@@ -217,7 +217,7 @@ sub cancel
 sub is_cancelled
 {
     my ($self) = @_;
-    return ! $handlers{refaddr($self)}; 
+    return ! $handlers{refaddr($self)};
 }
 
 sub is_active
