@@ -9,6 +9,10 @@ Revision history for {{$dist->name}}
   - treat EWOULDBLOCK like EAGAIN, so non-blocking sockets work on
     Windows (rt#84473)
   - fixed test suite hangs on Windows (rt#84473)
+  - Event backend now uses high resolution timers; previously
+    timers had one second granularity unless the caller did
+    `use Event`
+  - Made the forked test inactivity timer more robust (rt#125351)
 
 0.813 2013/09/17
 
