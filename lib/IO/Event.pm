@@ -132,7 +132,8 @@ use warnings;
 use Symbol;
 use Carp;
 require IO::Handle;
-use POSIX qw(BUFSIZ EAGAIN EBADF EINVAL ETIMEDOUT);
+use POSIX qw(BUFSIZ EBADF EINVAL ETIMEDOUT);
+use Errno ();
 use Socket;
 use Scalar::Util qw(weaken reftype);
 use Time::HiRes qw(time);
@@ -347,7 +348,7 @@ sub ie_dispatch_write
             $rv = syswrite($fh, $$obuf);
             if (defined $rv) {
                 substr($$obuf, 0, $rv) = '';
-            } elsif ($! == EAGAIN) {
+            } elsif ($!{EAGAIN} || $!{EWOULDBLOCK}) {
                 # this shouldn't happen, but
                 # it's not that big a deal
             } else {
@@ -462,7 +463,7 @@ sub ie_input
             # must be 0 and closed!
             ${*$self}{ie_readclosed} = 1;
             last;
-        } elsif ($! == EAGAIN) {
+        } elsif ($!{EAGAIN} || $!{EWOULDBLOCK}) {
             # readclosed = 0?
             last;
         } else {
@@ -831,7 +832,7 @@ sub sysread
         } elsif (defined($rv)) {
             # must be 0 and closed!
             ${*$self}{ie_readclosed} = 1;
-        } elsif ($! == EAGAIN) {
+        } elsif ($!{EAGAIN} || $!{EWOULDBLOCK}) {
             # nothing there
         } else {
             # errors other than EAGAIN aren't recoverable
@@ -1065,7 +1066,7 @@ sub print
             $$obuf = substr($data, $rv, length($data)-$rv);
             $self->writeevents(1);
             $rv = 1;
-        } elsif ((! defined $rv) && $! == EAGAIN) {
+        } elsif ((! defined $rv) && ($!{EAGAIN} || $!{EWOULDBLOCK})) {
             $$obuf = $data;
             $self->writeevents(1);
             $rv = 1;

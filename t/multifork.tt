@@ -54,9 +54,15 @@ sleep(0.1);
                     $tb->todo_output($newstdout);
                     $tb->failure_output($newstdout);
                 }
-                my $fn = $newstdout->fileno();
-                open(STDOUT, '>&=', $fn) || die "redirect stdout: $!";
-                autoflush STDOUT 1;
+                if ($^O eq 'MSWin32') {
+                    # fork is emulated with threads in a single process,
+                    # so re-opening STDOUT would redirect the parent's too
+                    select($newstdout);
+                } else {
+                    my $fn = $newstdout->fileno();
+                    open(STDOUT, '>&=', $fn) || die "redirect stdout: $!";
+                    autoflush STDOUT 1;
+                }
                 return;
             } else {
                 die "Can't fork: $!";

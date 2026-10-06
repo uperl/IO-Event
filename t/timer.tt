@@ -68,3 +68,4 @@ is($timer2count, 1, "timer2count");
 
 alarm(0);
 
+1;

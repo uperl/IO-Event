@@ -24,7 +24,7 @@ BEGIN   {
 }
 
 use Time::HiRes qw(sleep gettimeofday tv_interval);
-use IO::Pipe;
+use IO::Handle;
 use IO::Event;
 use IO::Socket::INET;
 use Carp qw(verbose);
@@ -205,7 +205,12 @@ $SIG{PIPE} = sub {
     print "# SIGPIPE recevied in $$\n";
 };
 
-my $pipe = IO::Pipe->new;
+# A socketpair rather than a pipe, because non-blocking mode (used by
+# syncclear) is not supported on Windows pipes.
+my $pipe = IO::Handle->new;
+my $otherend = IO::Handle->new;
+socketpair($pipe, $otherend, AF_UNIX, SOCK_STREAM, PF_UNSPEC)
+    || die "socketpair: $!";
 
 if ($child = fork()) {
     print "# PARENT $$ will listen at 127.0.0.1:$rp\n" if $debug;
@@ -226,7 +231,7 @@ if ($child = fork()) {
         Event::unloop_all();
     };
 
-    $pipe->writer();
+    $otherend->close();
     $pipe->autoflush(1);
     print $pipe "l";
 
@@ -235,7 +240,8 @@ if ($child = fork()) {
     print "# PARENT done looping\n";
 } elsif (defined($child)) {
     print "# CHILD $$ will connect to 127.0.0.1:$rp\n" if $debug;
-    $pipe->reader();
+    ($pipe, $otherend) = ($otherend, $pipe);
+    $otherend->close();
     syncto("l");
     while (@tests) {
         my $test = $tests[0] || last;
@@ -294,7 +300,7 @@ sub syncany
     print "syncany\n" if $syncdebug;
     $pipe->blocking(1);
     my $buf;
-    $pipe->read($buf, 1);
+    $pipe->sysread($buf, 1);
     syncclear();
     print "syncany done - $buf\n" if $syncdebug;
 }
@@ -304,7 +310,7 @@ sub syncto
     print "syncto $lookfor\n" if $syncdebug;
     $pipe->blocking(1);
     my $buf;
-    while ($pipe->read($buf, 1) > 0) {
+    while ($pipe->sysread($buf, 1) > 0) {
         print "syncto got $buf\n" if $syncdebug;
         last if $buf eq $lookfor;
     }
@@ -315,7 +321,7 @@ sub syncclear
     print "synclear\n" if $syncdebug;
     $pipe->blocking(0);
     my $buf;
-    while ($pipe->read($buf, 4096)) {
+    while ($pipe->sysread($buf, 4096)) {
         print "syncclear: '$buf'\n" if $syncdebug;
     }
     print "syncclear done\n" if $syncdebug;

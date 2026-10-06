@@ -6,6 +6,9 @@ Revision history for {{$dist->name}}
   - fixed a pod formatting goof
   - fixed the repository line in the Makefile.PL
   - migrated to Dist::Zilla
+  - treat EWOULDBLOCK like EAGAIN, so non-blocking sockets work on
+    Windows (rt#84473)
+  - fixed test suite hangs on Windows (rt#84473)
 
 0.813 2013/09/17
 
