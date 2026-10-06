@@ -61,6 +61,9 @@ sub import
             require IO::Event::Emulate;
         } elsif ($s eq 'no_emulate_Event') {
             require Event;
+            # Event only uses Time::HiRes when its import is called,
+            # otherwise timers have one second granularity
+            Event->import;
             require IO::Event::Event;
             $base = 'IO::Event::Event';
         } elsif ($s eq 'AnyEvent') {
