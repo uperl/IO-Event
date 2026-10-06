@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+0.814     2026-10-06 03:20:11 -0600
   - use List::SomeUtils instead of List::MoreUtils (works around a
     broken dep in List::MoreUtils) (gh#10)
   - fixed a pod formatting goof
