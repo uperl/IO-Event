@@ -1795,6 +1795,35 @@ Returns (and sets) the text description of the filehandle.  For debugging.
 
 =back
 
+=head1 EVENT LOOP FUNCTIONS
+
+These dispatch to whichever event handler was chosen (see
+L</CHOOSING AN EVENT HANDLER>).
+
+=over 4
+
+=item IO::Event::loop()
+
+Run the event loop.
+
+=item IO::Event::unloop()
+
+Exit the current event loop.
+
+=item IO::Event::unloop_all()
+
+Exit all running event loops.
+
+=item IO::Event->timer( [ARGS] )
+
+Create a timer.  See L</TIMER API> for the arguments.
+
+=item IO::Event->idle( [ARGS] )
+
+Create an idle event.  See L</IDLE API> for the arguments.
+
+=back
+
 =head1 TIMER API
 
 The following timer construction arguments are supported by IO::Event's

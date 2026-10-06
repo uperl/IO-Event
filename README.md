@@ -478,6 +478,31 @@ IO::Event defines its own methods too:
 
     Returns (and sets) the text description of the filehandle.  For debugging.
 
+# EVENT LOOP FUNCTIONS
+
+These dispatch to whichever event handler was chosen (see
+["CHOOSING AN EVENT HANDLER"](#choosing-an-event-handler)).
+
+- IO::Event::loop()
+
+    Run the event loop.
+
+- IO::Event::unloop()
+
+    Exit the current event loop.
+
+- IO::Event::unloop\_all()
+
+    Exit all running event loops.
+
+- IO::Event->timer( \[ARGS\] )
+
+    Create a timer.  See ["TIMER API"](#timer-api) for the arguments.
+
+- IO::Event->idle( \[ARGS\] )
+
+    Create an idle event.  See ["IDLE API"](#idle-api) for the arguments.
+
 # TIMER API
 
 The following timer construction arguments are supported by IO::Event's
