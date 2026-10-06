@@ -17,7 +17,6 @@ $modules{$_} = $_ for qw(
   Event
   ExtUtils::MakeMaker
   IO::Handle
-  IO::Pipe
   IO::Socket::INET
   IO::Socket::UNIX
   List::SomeUtils
