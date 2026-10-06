@@ -89,7 +89,7 @@ sub AUTOLOAD
     my @r;
     my $fh = ${*$self}{ie_fh};
     if ($fh) {
-        if (wantarray) {
+        if (wantarray) {  ## no critic (Community::Wantarray)
             eval { @r = $fh->$method(@_) };
         } else {
             eval { $r = $fh->$method(@_) };
@@ -99,7 +99,7 @@ sub AUTOLOAD
             if ($1 ne $method) {
                 # nothing to do
             } elsif ($event && $event->can($method)) {
-                if (wantarray) {
+                if (wantarray) {  ## no critic (Community::Wantarray)
                     eval { @r = $event->$method(@_) };
                 } else {
                     eval { $r = $event->$method(@_) };
@@ -111,7 +111,7 @@ sub AUTOLOAD
     } else {
         my $event = ${*$self}{ie_event};
         if ($event && $event->can($method)) {
-            if (wantarray) {
+            if (wantarray) {  ## no critic (Community::Wantarray)
                 eval { @r = $event->$method(@_) };
             } else {
                 eval { $r = $event->$method(@_) };
@@ -121,7 +121,7 @@ sub AUTOLOAD
         }
     }
     confess $@ if $@;
-    return @r if wantarray;
+    return @r if wantarray;  ## no critic (Community::Wantarray)
     return $r;
 }
 
@@ -1151,7 +1151,7 @@ sub PRINTF
 sub READLINE
 {
     my $self = shift;
-    wantarray ? $self->getlines : $self->getline;
+    wantarray ? $self->getlines : $self->getline;  ## no critic (Community::Wantarray)
 }
 
 sub ie_desc
