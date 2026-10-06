@@ -1,6 +1,7 @@
 #!/usr/bin/perl -I.
 
 use strict;
+use warnings;
 
 my $slowest = 4;
 my $pause = 0;
