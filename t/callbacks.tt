@@ -151,7 +151,6 @@ okay($r == 7, "loop finshed ($r)");
 okay(1, "all done");
 exit(0);
 
-my $run1er;
 sub runstuff
 {
     if ($ptime) {
