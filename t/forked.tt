@@ -271,6 +271,7 @@ if ($child = fork()) {
         }
         print "# CHILD closing\n";
         close($s);
+        syncto("e");
     }
 } else {
     die "fork: $!";
@@ -377,9 +378,9 @@ sub ie_eof
     my ($self, $s) = @_;
     is($self->{rqi}, scalar(@{$self->{results}}));
     $s->close();
-    exit 0 unless @tests;
     print "pipesend 'e'\n" if $syncdebug;
     print $pipe "e";
+    exit 0 unless @tests;
 }
 
 package Timer;
