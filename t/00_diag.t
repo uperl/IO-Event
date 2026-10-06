@@ -28,6 +28,7 @@ $modules{$_} = $_ for qw(
   Sys::Hostname
   Test::More
   Time::HiRes
+  parent
 );
 
 
