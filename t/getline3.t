@@ -1,5 +1,8 @@
 #!/usr/bin/perl -I.
 
+use strict;
+use warnings;
+
 eval { require AnyEvent::Impl::Perl; require AnyEvent; };
 if ($@) {
     print "1..0 # Skip AnyEvent not installed\n";
