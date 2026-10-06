@@ -33,7 +33,7 @@ BEGIN {
 sub pickport
 {
     for (my $i = 0; $i < 1000; $i++) {
-        my $s = new IO::Socket::INET (
+        my $s = IO::Socket::INET->new(
             Listen => 1,
             LocalPort => $startingport,
         );

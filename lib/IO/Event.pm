@@ -1228,7 +1228,7 @@ sub new
     delete $sock{Description};
 
     require IO::Socket::INET;
-    my $fh = new IO::Socket::INET(%sock);
+    my $fh = IO::Socket::INET->new(%sock);
     return undef unless defined $fh;
 
     my $peer = any { /Peer/ } keys %sock;
@@ -1296,7 +1296,7 @@ sub new
     delete $sock{Description};
 
     require IO::Socket::UNIX;
-    my $fh = new IO::Socket::UNIX(%sock);
+    my $fh = IO::Socket::UNIX->new(%sock);
 
     return undef unless $fh;
     my $self = $pkg->SUPER::new($fh, $handler, $desc);

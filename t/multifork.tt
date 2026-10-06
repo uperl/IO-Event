@@ -29,8 +29,8 @@ sub dofork
         my $count = $2 || 1;
         for my $n (1..$count) {
             my $pid;
-            my $psideCapture = new IO::Handle;
-            $newstdout = new IO::Handle;
+            my $psideCapture = IO::Handle->new;
+            $newstdout = IO::Handle->new;
             socketpair($psideCapture, $newstdout, AF_UNIX, SOCK_STREAM, PF_UNSPEC)
                 || die "socketpair: $!";
             if ($pid = fork()) {
@@ -50,7 +50,7 @@ sleep(0.1);
 
                 $newstdout->autoflush(1);
                 if (defined &Test::Builder::new) {
-                    my $tb = new Test::Builder;
+                    my $tb = Test::Builder->new;
                     $tb->output($newstdout);
                     $tb->todo_output($newstdout);
                     $tb->failure_output($newstdout);
@@ -165,7 +165,7 @@ Test::XMultiFork->dofork("a15");
 
 srand(time ^ ($$ < 5));
 
-import Test::Simple tests => 10;
+Test::Simple->import(tests => 10);
 
 sleep(0.1) if rand(1) < .3;
 ok(1, "one$$");

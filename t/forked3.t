@@ -11,6 +11,6 @@ if ($@) {
 
 use FindBin;
 use IO::Event;
-import IO::Event 'AnyEvent';
+IO::Event->import('AnyEvent');
 require "$FindBin::Bin/forked.tt";
 
